@@ -117,7 +117,7 @@ member.js 基于JQuery类库，和CCE.Wehcat类库，封装了针对美宝莲微
   ```
 ## member.js的配置参数说明
 ```javascript
-var defaultOptions:{
+var memberOptions={
             debug:false,                    // Debug为true时，会开启Debug模式
             autoGetCard:true,               // 非会员时自动引导领卡
             memberInfo:{
@@ -246,6 +246,28 @@ var defaultOptions:{
                     }
                 }
 
-            }
-        }
+            },
+            wechatOptions:opts  //取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
+        }
  ```
+    ### 拉起会员卡
+    ```javascript
+     var memberFlow = new $.mbl_common.memberFlow(memberOptions);
+            // 执行
+            memberFlow.load();
+    ```
+    
+    
+ ##  此版本更新修复的问题
+     ### 1.wechat.js中添加addCard 方法；
+     新增拉去普通卡券的方法
+     ### 2.修改wechat配置授权回调无返回值问题；
+     第一次授权有返回，再次刷新无返回值
+     ### 3.member.js配置中新增wechatOptions配置；
+     用于修改member.js中微信授权配置，更灵活配置授权方式；修复wechat授权与member中的授权不同步问题；
+     ### 4.修复了ismember回调方法里无法获取到头像问题
+     
+ 
+ 
+ 
+ 

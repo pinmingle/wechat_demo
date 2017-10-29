@@ -249,8 +249,8 @@ var memberOptions={
             },
             wechatOptions:{}  //同opts 取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
         }
-        ```
-    ### 拉起会员卡
+```
+### 拉起会员卡
     ```javascript
      var memberFlow = new $.mbl_common.memberFlow(memberOptions);
          memberFlow.load();

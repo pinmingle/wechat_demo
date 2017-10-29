@@ -247,7 +247,7 @@ var memberOptions={
                 }
 
             },
-            wechatOptions:opts  //取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
+            wechatOptions:{}  //同opts 取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
         }
  ```
     ### 拉起会员卡
@@ -256,9 +256,7 @@ var memberOptions={
             // 执行
             memberFlow.load();
     ```
-    
-    
- ##  此版本更新修复的问题
+  ## 此版本更新修复的问题
      ### 1.wechat.js中添加addCard 方法；
      新增拉去普通卡券的方法
      ### 2.修改wechat配置授权回调无返回值问题；
@@ -267,7 +265,3 @@ var memberOptions={
      用于修改member.js中微信授权配置，更灵活配置授权方式；修复wechat授权与member中的授权不同步问题；
      ### 4.修复了ismember回调方法里无法获取到头像问题
      
- 
- 
- 
- 

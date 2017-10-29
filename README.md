@@ -247,14 +247,13 @@ var memberOptions={
                 }
 
             },
-            wechatOptions:{}  //同opts 取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
+            wechatOptions:{}  //同opts 取wechat中相同配置，如果不取可设置同member.js默认中一样的cookie key,防止多次授权
         }
- ```
-    ### 拉起会员卡
+        ```
+    ### 拉起会员卡
     ```javascript
      var memberFlow = new $.mbl_common.memberFlow(memberOptions);
-            // 执行
-            memberFlow.load();
+         memberFlow.load();
     ```
   ## 此版本更新修复的问题
      ### 1.wechat.js中添加addCard 方法；

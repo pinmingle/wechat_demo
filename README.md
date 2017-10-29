@@ -1,11 +1,14 @@
-<h1>微信组件说明</h1>
-<div>由于项目中使用到的微信授权，微信分享，卡券等业务较为频繁； 所以对这块业务做了一些封住装，已提高项目的开发效率，及公众号平台的统一管理<br/>
-wechat.js主要封装了授权，分享，拉起卡券等方法；</div>
+```javascript
+var wechat = new $.cce.wechat(opts);
+```
+# 微信组件说明
+由于项目中使用到的微信授权，微信分享，卡券等业务较为频繁； 所以对这块业务做了一些封住装，已提高项目的开发效率，及公众号平台的统一管理<br/>
+wechat.js主要封装了授权，分享，拉起卡券等方法；
 
-<h2>wechat.js的配置参数说明</h2>
-<code>
+## wechat.js的配置参数说明
+
+```javascript
  var opts = {<br/>
-  
         debug:true,                                                    // Debug为true时，会开启CCE的Debug模式和
         appid:'wxe83ff6a0b1fae2ef',                                     // 公众号APPID（根据平台信息获取）
         oauth:{
@@ -68,18 +71,16 @@ wechat.js主要封装了授权，分享，拉起卡券等方法；</div>
 
         }
     }
-</code>
+```
 
-<h2>授权</h2>
-<code>
-  1.自动授权<br/>
-  在oauth中的auto中配置为true;<br/>
-  然后  var wechat = new $.cce.wechat(opts);<br/>
-  在在oauth中的callback方法中获取授权信息<br/>
-  2.手动授权<br/>
-   在oauth中的auto中配置为false(默认为false);<br/>
-  然后  var wechat = new $.cce.wechat(opts);
-        wechat.oauth();
-  在oauth中的callback方法中获取授权信息;
-  在wechat.oauth();中也会返回授权信息;
-  </code>
+## 授权
+  1.自动授权<br>
+  在oauth中的auto中配置为true;<br>
+  然后  var wechat = new $.cce.wechat(opts);<br>
+  在在oauth中的callback方法中获取授权信息<br>
+  2.手动授权<br>
+   在oauth中的auto中配置为false(默认为false);<br>
+  然后  var wechat = new $.cce.wechat(opts);<br>
+        wechat.oauth();<br>
+  在oauth中的callback方法中获取授权信息;<br>
+  在wechat.oauth();中也会返回授权信息;<br>

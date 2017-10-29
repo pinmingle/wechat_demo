@@ -82,18 +82,18 @@ wechat.js主要封装了授权，分享，拉起卡券等方法；
   ```javascript
   在oauth中的auto中配置为false(默认为false);
   然后  var wechat = new $.cce.wechat(opts);
-        wechat.oauth();
+            wechat.oauth();
   在oauth中的callback方法中获取授权信息;
   在wechat.oauth();中也会返回授权信息;
   ```
   
 ## jssdk签名
-  ### 自动签名
+  ### 自动签名
   ```javascript
   在jssdk中的auto中配置为true;<br>
   然后  var wechat = new $.cce.wechat(opts);<br>
   ```
-  ### 手动签名
+  ### 手动签名
   ```javascript
   在jssdk中的auto中配置为false;(默认为false)<br>
   然后  var wechat = new $.cce.wechat(opts);<br>

@@ -99,3 +99,11 @@ wechat.js主要封装了授权，分享，拉起卡券等方法；
   然后  var wechat = new $.cce.wechat(opts);
             wechat.jssdkConfig();
   ```
+## 卡券
+  ```javascript
+  if(wx && wx.addCard){
+      wx.ready(function(){
+          new $.cce.addCard(opts);
+      })
+  }
+  ```

@@ -115,3 +115,137 @@ member.js 基于JQuery类库，和CCE.Wehcat类库，封装了针对美宝莲微
       })
   }
   ```
+## member.js的配置参数说明
+```javascript
+defaultOptions:{
+            debug:false,                    // Debug为true时，会开启Debug模式
+            autoGetCard:true,               // 非会员时自动引导领卡
+            memberInfo:{
+                refresh:false,                            // 为false时，会先从存储中获取，存储中存在则不request，为true时跳过存储，直接request
+                request:{
+                    async:true,                           // 是否需要同步获取，默认为异步
+                    url:'http://wxproxy-maybelline.comeyes.com:8105/api/member/mbl/',                                 // 获取签名信息的API（根据平台信息获取）
+                    retryTime:3,                             // 获取签名失败后最大重试次数
+                    beforeSend:null,                        // 获取签名请求发送之前事件
+                    isMember:null,                          // 获取到是会员的情况 function(data,type){}，在存储完会员信息之后触发,type=0 表示从接口获取，1表示从缓存获取
+                    nonMember:null,                         // 获取到非会员的情况，在自动申领卡的之前触发，function(){}，在函数内return false 可阻止自动申领
+                    error:null,                             // 获取会员信息失败
+                    complete:null                           // 完成事件
+                },
+                storge:{
+                    key:'memberinfo_mbl_member',                                        // 用于存储的用户信息的key
+                    desKey:'ccegroup',                                                  // 用于存储敏感信息的加密DES KEY，为null或空不加密
+                    setData:function(key,data){                                       // 存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie存储，也可以使用API方式在服务端存储
+                        var d = new Date();
+                        d.setMinutes(d.getMinutes()+10);
+                        return $.cookie(key, data,{expires :d});
+                    },
+                    getData:function(key){                                            // 获取存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端获取
+                        return $.cookie(key);
+                    },
+                    delData:function(key){                                            // 删除指定存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端删除
+                        $.cookie(key, null);
+                    }
+                }
+            },
+            memberCard:{
+                signature:{
+                    async:true,                            // 是否需要同步获取，默认为异步
+                    url:'http://wxproxy-maybelline.comeyes.com:8105/sns/sign/card/mbl/',    // 获取签名信息的API（根据平台信息获取）
+                    retryTime:3,                             // 获取签名失败后最大重试次数
+                    beforeSend:null,                        // 获取签名请求发送之前事件
+                    success:null,                           // 获取签名成功事件
+                    error:null,                             // 获取签名失败事件
+                    complete:null                           // 完成事件
+                },
+                callbackUrl:'',                             // 卡券激活后跳转URL
+                cardId:'p5Ph1jpuKbyOiU0btTKcb7d4-WSo',      // 领取卡券的ID
+                cardOuterId:'',                             // 卡券签名时的outerId
+                cardSuccessRefresh:false,					// 卡券领取成功后，是否刷新获取会员信息
+                cardSuccess:null,                          // 卡券领取成功事件
+                cardCancel:null,                           // 卡券取消领取事件
+                cardError:null,                             // 卡券设置错误
+                storge:{
+                    key:'mbl_membercard_callbackurl',                                   // 用于存储的callbackUrl的key
+                    desKey:'',                                                          // 用于存储敏感信息的加密DES KEY，为null或空不加密
+                    setData:function(key,data){                                       // 存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie存储，也可以使用API方式在服务端存储
+                        var d = new Date();
+                        d.setMinutes(d.getMinutes()+10);
+                        return $.cookie(key, data,{expires :d});
+                    },
+                    getData:function(key){                                            // 获取存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端获取
+                        return $.cookie(key);
+                    },
+                    delData:function(key){                                            // 删除指定存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端删除
+                        $.cookie(key, null);
+                    }
+                }
+            },
+            memberActive:{
+                request:{
+                    data:null,
+                    async:true,                           // 是否需要同步获取，默认为异步
+                    url:'/common/MemberCardServiceHandler.ashx?op=wechatapi&az=ViRDmss2Zu4pQUGQrvUh9w%3d%3d&pc=ZuqwyBLGNoUZEmpPVTM1%2fw%3d%3d',    // 激活API（根据平台信息获取）
+                    retryTime:3,                             // 激活失败后最大重试次数
+                    beforeSend:null,                        // 激活请求发送之前事件
+                    successRedirect:true,                   // 激活成功自动处理跳转
+                    success:null,                           // 激活成功
+                    error:null,                             // 激活失败
+                    complete:null                           // 完成事件
+                },
+                storge:{
+                    key:'mbl_membercard_callbackurl',                                   // 用于存储的callbackUrl的key
+                    desKey:'',                                                          // 用于存储敏感信息的加密DES KEY，为null或空不加密
+                    setData:function(key,data){                                       // 存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie存储，也可以使用API方式在服务端存储
+                        var d = new Date();
+                        d.setMinutes(d.getMinutes()+10);
+                        return $.cookie(key, data,{expires :d});
+                    },
+                    getData:function(key){                                            // 获取存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端获取
+                        return $.cookie(key);
+                    },
+                    delData:function(key){                                            // 删除指定存储数据方法，默认在加载 jQuery.Cookie 后使用 cookie获取，也可以使用API方式在服务端删除
+                        $.cookie(key, null);
+                    }
+                }
+            },
+            improveMember:{
+                request:{
+                    data:null,
+                    async:true,                           // 是否需要同步获取，默认为异步
+                    url:'/common/MemberCardServiceHandler.ashx?op=wechatapi&az=ViRDmss2Zu4pQUGQrvUh9w%3d%3d&pc=CL4gwYMpIYklFx3Nk6huPw%3d%3d',    // 完善信息API（根据平台信息获取）
+                    retryTime:3,                             // 完善信息后最大重试次数
+                    beforeSend:null,                        // 完善信息请求发送之前事件
+                    successRedirect:true,                   // 完善信息成功自动处理跳转
+                    success:null,                           // 完善信息成功
+                    error:null,                             // 完善信息失败
+                    complete:null                           // 完成事件
+                }
+            },
+            smsCode:{
+                request:{
+                    data:null,
+                    async:true,                           // 是否需要同步获取，默认为异步
+                    url:'/common/MemberCardServiceHandler.ashx?op=wechatapi&az=ViRDmss2Zu4pQUGQrvUh9w%3d%3d&pc=%2b%2biHZZnaONHT3462H3TDew%3d%3d',    // 发送短信API
+                    retryTime:3,                             // 发送失败后最大重试次数
+                    beforeSend:null,                        // 请求发送之前事件
+                    success:null,                           // 发送成功事件
+                    error:null,                             // 发送失败事件
+                    complete:null                           // 完成事件
+                },
+                countDown:{
+                    domEl:null,                             // 显示倒计时的dom元素
+                    durationTxt:'{%s%}s',                     // 倒计时中的文本 {%s%} 代表倒计时动态描述
+                    enableTxt:'获取验证码',                  // Dom解冻后的文本
+                    duration:60,                              // 倒计时秒数
+                    disableFunc:function(){
+                        this.setAttribute("disabled","disabled");
+                    },
+                    enableFunc:function(){
+                        this.removeAttribute("disabled");
+                    }
+                }
+
+            }
+        }
+ ```

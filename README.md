@@ -117,7 +117,7 @@ member.js 基于JQuery类库，和CCE.Wehcat类库，封装了针对美宝莲微
   ```
 ## member.js的配置参数说明
 ```javascript
-defaultOptions:{
+var defaultOptions:{
             debug:false,                    // Debug为true时，会开启Debug模式
             autoGetCard:true,               // 非会员时自动引导领卡
             memberInfo:{

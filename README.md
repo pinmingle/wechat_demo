@@ -251,16 +251,16 @@ var memberOptions={
         }
 ```
 ### 拉起会员卡
-    ```javascript
-     var memberFlow = new $.mbl_common.memberFlow(memberOptions);
-         memberFlow.load();
-    ```
-  ## 此版本更新修复的问题
-     ### 1.wechat.js中添加addCard 方法；
-     新增拉去普通卡券的方法
-     ### 2.修改wechat配置授权回调无返回值问题；
-     第一次授权有返回，再次刷新无返回值
-     ### 3.member.js配置中新增wechatOptions配置；
-     用于修改member.js中微信授权配置，更灵活配置授权方式；修复wechat授权与member中的授权不同步问题；
-     ### 4.修复了ismember回调方法里无法获取到头像问题
+```javascript
+var memberFlow = new $.mbl_common.memberFlow(memberOptions);
+    memberFlow.load();
+```
+## 此版本更新修复的问题
+### 1.wechat.js中添加addCard 方法；
+新增拉去普通卡券的方法
+### 2.修改wechat配置授权回调无返回值问题；
+第一次授权有返回，再次刷新无返回值
+### 3.member.js配置中新增wechatOptions配置；
+用于修改member.js中微信授权配置，更灵活配置授权方式；修复wechat授权与member中的授权不同步问题；
+### 4.修复了ismember回调方法里无法获取到头像问题
      

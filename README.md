@@ -6,7 +6,7 @@ wechat.js主要封装了授权，分享，拉起卡券等方法；
 ## wechat.js的配置参数说明
 
 ```javascript
- var opts = {<br/>
+ var opts = {
         debug:true,                                                    // Debug为true时，会开启CCE的Debug模式和
         appid:'wxe83ff6a0b1fae2ef',                                     // 公众号APPID（根据平台信息获取）
         oauth:{
@@ -85,8 +85,10 @@ wechat.js主要封装了授权，分享，拉起卡券等方法；
   
 ## jssdk签名
   ### 自动签名
+  ```javascript
   在jssdk中的auto中配置为true;<br>
   然后  var wechat = new $.cce.wechat(opts);<br>
+  ```
   ### 手动签名
   在jssdk中的auto中配置为false;(默认为false)<br>
   然后  var wechat = new $.cce.wechat(opts);<br>

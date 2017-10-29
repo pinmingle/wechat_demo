@@ -3,6 +3,8 @@
 由于项目中使用到的微信网页授权，微信网页签名，微信卡券等业务较为频繁； 所以对这块业务做了一些封装，已提高项目的开发效率，及公众号平台的统一管理。
 封装的类库有wechat.js和member.js。<br>
 wechat.js 基于JQuery类库和微信网页开发工具包（微信JS-SDK）封装了授权，分享，拉起卡券等方法；
+ * 提供微信网页授权，微信网页签名，微信卡券等功能
+ * 依赖于JQuery类库，JQuery.cookie,crypto.js和JSSDK类库；
 详见[微信JS-SDK说明文档](https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115)
 
 member.js 基于JQuery类库，和CCE.Wehcat类库，封装了针对美宝莲微信会员卡的判定和领取操作

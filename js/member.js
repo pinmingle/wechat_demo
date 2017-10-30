@@ -154,13 +154,13 @@
                 r.debug = $.mbl_common.CONFIG.debug;
             return r;
         },
-        getWechat:function(debug){
+        getWechat:function(opts){
             /*
              * 创建经过CCE封装Wechat使用对象
              * 详情默认配置请在 wechat.js 中的 wechatDefaultOptions 对象查看
              * */
             var wechatOptions = {
-                debug:debug,                                            // Debug为true时，会开启CCE的Debug模式和 微信官方类库的Debug模式；上线时切记关闭
+                debug:opts.debug,                                            // Debug为true时，会开启CCE的Debug模式和 微信官方类库的Debug模式；上线时切记关闭
                 appid:'wxe83ff6a0b1fae2ef',                                     // 公众号APPID（根据平台信息获取）
                 // 授权相关参数对象
                 oauth:{
@@ -176,7 +176,7 @@
                         validateKey:'wechat_oauth_validate_mbl_member',                                // 用于存储的验证参数key（一般为cookie的key值）【建议以campaignkey结尾，防止同域名cookie覆盖！！！】
                         userDataKey:'wechat_oauth_user_mbl_member',                                    // 用于存储授权后用户信息的key（一般为cookie的key值）【建议以campaignkey结尾，防止同域名cookie覆盖！！！】
                         desKey:'ccegroup'
-                    },
+                    }
                 },
                 // JSSDK相关参数，执行jssdkConfig后会自动获取签名，并执行wx.config，之后的操作可在 wx.ready中执行，wx.error中捕获错误
                 jssdk:{
@@ -216,11 +216,12 @@
                     cancel:function(){}
                 }
             };
+            $.extend(true,wechatOptions,opts);
             return new $.cce.wechat(wechatOptions);
         },
         memberFlow:function(opts){
             var options = $.mbl_common.getOptions(opts);
-            var wechat = $.mbl_common.getWechat(options.debug);
+            var wechat = $.mbl_common.getWechat(options.wechatOptions||{});
             $.mbl_common.WECHAT = wechat;
             this.load = function(){
                 /*
@@ -319,7 +320,7 @@
                         memberData.InitBonus = $.mbl_common.memberValueDecrypt(memberData.InitBonus || '') || '';
                         memberData.UserName = unescape($.mbl_common.memberValueDecrypt(memberData.UserName || '') || '');
                         memberData.Birthday = $.mbl_common.memberValueDecrypt(memberData.Birthday || '') || '';
-                        memberData.HeaderImageURL = $.mbl_common.memberValueDecrypt(memberData.HeaderImageURL || '') || '';
+                        memberData.HeaderImageURL = $.mbl_common.memberValueDecrypt(memberData.HeaderImageURL || '') || $.mbl_common.OAUTHINFO.user.headimgurl || '';
                         memberData.Mobile = $.mbl_common.memberValueDecrypt(memberData.Mobile || '') || '';
                         memberData.openid = openid;
 

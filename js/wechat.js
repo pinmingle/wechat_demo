@@ -203,10 +203,8 @@
             this.wxShare = $.cce.wxShare;
             var oauth = new $.cce.oauth(options);
             this.oauth = oauth.oauth;
-            if(options.oauth.auto == true){
-                console.log("youmieyou");
+            if(options.oauth.auto == true)
                 oauth.oauth();
-            }
 
             if(options.jssdk.auto == true){
                 this.jssdkConfig(options);
@@ -215,7 +213,6 @@
         },
         // 授权类库
         oauth:function(opts){
-
             var options =  opts;//$.cce.extendOptions('oauth',opts);
             var storge = new $.cce.storge({
                 desKey:options.oauth.storge.desKey,
@@ -310,10 +307,6 @@
                 $.cce.debug('Oauth','Is Oauth',oauthData,options.debug);
                 // 如果已存储授权信息，直接返回
                 if(oauthData != null){
-                    console.log("这是第二次");
-                    if(typeof options.oauth.callback == 'function'){
-                        options.oauth.callback(oauthData);
-                    }
                     return oauthData;
                 }
 
@@ -326,10 +319,8 @@
                     //callbackObj.user.openid = callbackObj.openid;
                     storge.setJSON(options.oauth.storge.userDataKey,callbackObj);
                     storge.del(options.oauth.storge.validateKey);
-                    console.log("这是第一次");
-                    if(typeof options.oauth.callback == 'function'){
+                    if(typeof options.oauth.callback == 'function')
                         options.oauth.callback(callbackObj);
-                    }
                     return callbackObj;
                 }
 

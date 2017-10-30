@@ -9,7 +9,7 @@
     <script src="js/crypto.min.js"></script>
     <script src="js/wechat.js"></script>
     <script src="js/member.js"></script>
-    <!--<script src="http://www.ccegroup.cn/job/js/vocnsole.min.js"></script>-->
+    <script src="http://www.ccegroup.cn/job/js/vocnsole.min.js"></script>
 </head>
 <body>
 
@@ -17,10 +17,10 @@
 <button id="addMemberCardBtn" style=" width: 320px; height: 64px; margin: 40px;">拉起会员卡</button>
 <script>
     var opts = {
-        debug:true,                                                    // Debug为true时，会开启CCE的Debug模式和
+        debug:false,                                                    // Debug为true时，会开启CCE的Debug模式和
         appid:'wxe83ff6a0b1fae2ef',                                     // 公众号APPID（根据平台信息获取）
         oauth:{
-            auto:true,                 // 是否自动授权，指 new $.cce.wechat({}); 之后即可执行，false时可 主动执行 oauth()方法
+            auto:false,                 // 是否自动授权，指 new $.cce.wechat({}); 之后即可执行，false时可 主动执行 oauth()方法
             wechatOauthUrl:'https://px02331.wetalk.im/connect/oauth2/authorize2',   // 微信官方授权URL（有类似wetalk代理时，设置为代理的URL）
             cceOauthUrl:'http://proxy.maybellinechina.com/sns/oauth2/shortcut/mbl/',                                                         // CCE授权一级回调URL（根据平台信息获取）
             redirect_uri:window.location.href,                                      // 设置授权成功后的自定义回调URL，一般为当前页（可带参数）
@@ -29,7 +29,15 @@
             scope:'snsapi_userinfo',                                                    // snsapi_base/snsapi_userinfo，微信授权参数snsapi_base为静默授权只获取openid（推荐），snsapi_userinfo可获取用户信息
             sharp:'wechat_redirect',                                                // 微信授权参数，遵循微信官方标准
             beforeRedirect:null,                                                   // 授权跳转之前事件，回传即将跳转的URL，return false可终止跳转动作
-            callback:null                                                         // 授权回调之后事件 function(oauthObj)，授权回调后解析的对象 oauthObj = {openid:'',user:{},state:null/{}}
+            callback:function(data){
+                console.log("ouutl:");
+                console.log(data);
+            },                                                         // 授权回调之后事件 function(oauthObj)，授权回调后解析的对象 oauthObj = {openid:'',user:{},state:null/{}}
+            storge:{
+                validateKey:'wechat_oauth_validate_mbl_member',                                // 用于存储的验证参数key（一般为cookie的key值）【建议以campaignkey结尾，防止同域名cookie覆盖！！！】
+                userDataKey:'wechat_oauth_user_mbl_member',                                    // 用于存储授权后用户信息的key（一般为cookie的key值）【建议以campaignkey结尾，防止同域名cookie覆盖！！！】
+                desKey:'ccegroup'
+            }
         },
         jssdk: {
             auto:true,
@@ -80,23 +88,6 @@
     }
     //授权
     var wechat = new $.cce.wechat(opts);
-
-    document.getElementById("addCardBtn").addEventListener("click",function(){
-        if(wx && wx.addCard){
-            wx.ready(function(){
-                new $.cce.addCard(opts);
-            })
-        }
-    })
-	document.getElementById("addMemberCardBtn").addEventListener("click",function(){
-        if(wx && wx.addCard){
-            wx.ready(function(){
-                new $.cce.addCard(opts);
-            })
-        }
-    })
-
-
     var oauthObj = wechat.oauth();
     console.log(oauthObj);
     wechat.jssdkConfig();
@@ -111,6 +102,67 @@
         cancel: function () { }
     });
 
+
+    document.getElementById("addCardBtn").addEventListener("click",function(){
+        if(wx && wx.addCard){
+            wx.ready(function(){
+                new $.cce.addCard(opts);
+            })
+        }
+    })
+
+    var memberOptions = {
+        debug: false,                    // Debug为true时，会开启Debug模式
+        autoGetCard: true,              // 非会员时自动引导领卡
+        memberInfo: {
+            request: {
+                isMember: function (data, type) {
+                    console.log("会员信息");
+                    console.log(data);
+                },                          			// 获取到是会员的情况 function(data,type){}，在存储完会员信息之后触发,type=0 表示从接口获取，1表示从缓存获取
+                nonMember: null,                         // 获取到非会员的情况，在自动申领卡的之前触发，function(){}，在函数内return false 可阻止自动申领
+                error: function (req) {
+
+                },                             			// 获取会员信息失败
+                complete: function () {
+
+                }                           // 完成事件，
+            }
+        },
+        memberCard: {
+            signature: {
+                error: function (req, status, err) {
+                },                                      // 获取签名失败事件
+                complete: null                          // 完成事件
+            },
+            callbackUrl: window.location.href,           // 卡券激活后跳转URL
+            //cardId:'p5Ph1jgAaRxdAoeQu7qs9wEi4dOY',      // 领取卡券的ID
+            cardOuterId: '60002',                        // 卡券签名时的outerId
+            cardSuccessRefresh: true,					// 卡券领取成功后，是否刷新获取会员信息
+            cardSuccess: function (data) {
+                wx.closeWindow();
+            },                                      	// 卡券领取成功事件，设置了cardSuccessRefresh时，如果用户领取卡券并激活，则会返回会员信息，未激活则返回NULL
+            cardCancel: function (msg) {
+                if (confirm('不是会员不能享受福利哦，快点成为会员吧？')) {
+                    $.mbl_common.addMemberCard();
+                }
+                else {
+                    wx.closeWindow();
+                }
+            }                                           // 卡券取消领取事件
+        },
+        wechatOptions:opts
+    }
+
+	document.getElementById("addMemberCardBtn").addEventListener("click",function(){
+        if(wx && wx.addCard){
+            wx.ready(function(){
+                var memberFlow = new $.mbl_common.memberFlow(memberOptions);
+                // 执行
+                memberFlow.load();
+            })
+        }
+    })
 </script>
 </body>
 </html>
